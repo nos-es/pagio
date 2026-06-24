@@ -10,8 +10,8 @@ class HTMLNode:
             props: dict[str, str] | None = None):
 
         self.tag = tag
-        self.value = value
-        self.children = children
+        self.value = value if value is not None else ""
+        self.children = children if children is not None else []
         self.props = props
 
     def to_html(self):
