@@ -1,4 +1,6 @@
+from __future__ import annotations
 from enum import Enum
+from leafnode import LeafNode
 
 # text (plain)
 # **Bold text**
@@ -23,6 +25,29 @@ class TextNode:
         self.text: str = text
         self.text_type: TextType = text_type
         self.url = url
+
+    def text_node_to_html_node(text_node: TextNode) -> LeafNode:
+
+        if text_node.text_type == TextType.PLAIN:
+            return LeafNode(None, text_node.text)
+
+        if text_node.text_type == TextType.BOLD:
+            return LeafNode("b", text_node.text)
+
+        if text_node.text_type == TextType.ITALIC:
+            return LeafNode("i", text_node.text)
+
+        if text_node.text_type == TextType.CODE:
+            return LeafNode("code", text_node.text)
+
+        if text_node.text_type == TextType.LINK:
+            return LeafNode("a", text_node.text, {"href": text_node.url})
+
+        if text_node.text_type == TextType.IMAGE:
+            return LeafNode(
+                "img", "", {"src": text_node.url, "alt": text_node.text})
+
+        raise Exception("Type of this text node is not supprted")
 
     def __eq__(self, other) -> bool:
         return (
