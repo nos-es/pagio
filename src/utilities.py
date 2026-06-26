@@ -1,5 +1,64 @@
 from textnode import TextNode, TextType
 from leafnode import LeafNode
+import re
+
+
+def split_nodes_image(old_nodes: list[TextNode]) -> list[TextNode]:
+    result_nodes = []
+    for node in old_nodes:
+
+        if node.text_type != TextType.TEXT:
+            result_nodes.append(node)
+            continue
+
+        split_images = extract_markdown_images(node.text)
+        node_text = node.text
+        for image_pair in split_images:
+            image_alt = image_pair[0]
+            image_link = image_pair[1]
+            split_string = f"![{image_alt}]({image_link})"
+
+            sections = node_text.split(split_string, 1)
+            result_nodes.append(TextNode(sections[0], TextType.TEXT))
+            result_nodes.append(
+                TextNode(image_alt, TextType.IMAGE, image_link))
+            node_text = node_text[len(sections[0]) + len(split_string):]
+
+    return result_nodes
+
+
+def split_nodes_link(old_nodes: list[TextNode]) -> list[TextNode]:
+    result_nodes = []
+    for node in old_nodes:
+
+        if node.text_type != TextType.TEXT:
+            result_nodes.append(node)
+            continue
+
+        split_links = extract_markdown_links(node.text)
+        node_text = node.text
+        for link_pair in split_links:
+            link_alt = link_pair[0]
+            link_url = link_pair[1]
+            split_string = f"[{link_alt}]({link_url})"
+
+            sections = node_text.split(split_string, 1)
+            result_nodes.append(TextNode(sections[0], TextType.TEXT))
+            result_nodes.append(
+                TextNode(link_alt, TextType.LINK, link_url))
+            node_text = node_text[len(sections[0]) + len(split_string):]
+
+    return result_nodes
+
+
+def extract_markdown_images(text: str) -> list[tuple(str, str)]:
+    images = re.findall(r"!\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
+    return images
+
+
+def extract_markdown_links(text: str) -> list[tuple(str, str)]:
+    links = re.findall(r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
+    return links
 
 
 def text_node_to_html_node(text_node: TextNode) -> LeafNode:
