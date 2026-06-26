@@ -1,12 +1,11 @@
 from textnode import TextNode, TextType
+from utilities import split_nodes_delimiter
 
 
 def main() -> None:
-    test = None
-    print(test)
-    text_node = TextNode(
-        "Test Text Node", TextType.BOLD, "https://hello.com")
-    print(text_node)
+    node = TextNode("`This` is text with a `code block` word", TextType.TEXT)
+    new_nodes = split_nodes_delimiter([node], "`", TextType.CODE)
+    print(new_nodes)
 
 
 if __name__ == "__main__":
