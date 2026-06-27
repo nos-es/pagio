@@ -43,6 +43,27 @@ class TestUtitilies(unittest.TestCase):
             new_nodes,
         )
 
+    def test_split_links_text_after_link(self):
+        node = TextNode(
+            "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev). Nothing more.",
+            TextType.TEXT,
+        )
+        new_nodes = split_nodes_link([node])
+        print(f"New nodes: {new_nodes}")
+        self.assertListEqual(
+
+            [
+                TextNode("This is text with a link ", TextType.TEXT),
+                TextNode("to boot dev", TextType.LINK, "https://www.boot.dev"),
+                TextNode(" and ", TextType.TEXT),
+                TextNode(
+                    "to youtube", TextType.LINK, "https://www.youtube.com/@bootdotdev"
+                ),
+                TextNode(". Nothing more.", TextType.TEXT),
+            ],
+            new_nodes,
+        )
+
     def test_extract_markdown_images(self):
         matches = extract_markdown_images(
             "This is text with an ![image](https://i.imgur.com/zjjcJKZ.png)"
@@ -70,15 +91,6 @@ class TestUtitilies(unittest.TestCase):
             TextNode("Hello `World`", TextType.CODE)]
 
         self.assertEqual(result_nodes, expected_nodes)
-
-    def test_split_nodes_delimiter_with_missing_delimeter(self):
-        text = "Hello World"
-        delimiter = "_"
-
-        text_node = TextNode(text, TextType.TEXT)
-
-        self.assertRaises(Exception, split_nodes_delimiter, [
-                          text_node], delimiter, TextType.ITALIC)
 
     def test_split_nodes_delimiter_with_missing_closing_delimeter(self):
         text = "Hello _World"

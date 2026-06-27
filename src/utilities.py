@@ -3,6 +3,17 @@ from leafnode import LeafNode
 import re
 
 
+def text_to_textnode(text: str) -> list[TextNode]:
+    text_node = TextNode(text, TextType.TEXT)
+    result = split_nodes_delimiter([text_node], "**", TextType.BOLD)
+    result = split_nodes_delimiter(result, "_", TextType.ITALIC)
+    result = split_nodes_delimiter(result, "`", TextType.CODE)
+    result = split_nodes_image(result)
+    result = split_nodes_link(result)
+
+    return result
+
+
 def split_nodes_image(old_nodes: list[TextNode]) -> list[TextNode]:
     result_nodes = []
     for node in old_nodes:
@@ -23,6 +34,9 @@ def split_nodes_image(old_nodes: list[TextNode]) -> list[TextNode]:
             result_nodes.append(
                 TextNode(image_alt, TextType.IMAGE, image_link))
             node_text = node_text[len(sections[0]) + len(split_string):]
+
+        if node_text != "" and node_text is not None:
+            result_nodes.append(TextNode(node_text, TextType.TEXT))
 
     return result_nodes
 
@@ -46,7 +60,11 @@ def split_nodes_link(old_nodes: list[TextNode]) -> list[TextNode]:
             result_nodes.append(TextNode(sections[0], TextType.TEXT))
             result_nodes.append(
                 TextNode(link_alt, TextType.LINK, link_url))
+
             node_text = node_text[len(sections[0]) + len(split_string):]
+
+        if node_text != "" and node_text is not None:
+            result_nodes.append(TextNode(node_text, TextType.TEXT))
 
     return result_nodes
 
@@ -86,9 +104,6 @@ def text_node_to_html_node(text_node: TextNode) -> LeafNode:
 
 
 def has_closing_delimiter(text: str, delimiter: str) -> bool:
-
-    if delimiter not in text:
-        return False
 
     delimiter_count = 0
 
