@@ -1,9 +1,30 @@
 import unittest
 from textnode import TextNode, TextType
-from utilities import split_nodes_delimiter, extract_markdown_images, extract_markdown_links, split_nodes_image, split_nodes_link
+from utilities import split_nodes_delimiter, extract_markdown_images, extract_markdown_links, split_nodes_image, split_nodes_link, markdown_to_blocks
 
 
 class TestUtitilies(unittest.TestCase):
+
+    def test_markdown_to_blocks(self):
+        md = """
+This is **bolded** paragraph
+
+This is another paragraph with _italic_ text and `code` here
+This is the same paragraph on a new line
+
+- This is a list
+- with items
+"""
+        blocks = markdown_to_blocks(md)
+        self.assertEqual(
+            blocks,
+            [
+                "This is **bolded** paragraph",
+                "This is another paragraph with _italic_ text and `code` here\nThis is the same paragraph on a new line",
+                "- This is a list\n- with items",
+            ],
+        )
+
     def test_split_images(self):
         node = TextNode(
             "This is text with an ![image](https://i.imgur.com/zjjcJKZ.png) and another ![second image](https://i.imgur.com/3elNhQu.png)",
@@ -29,7 +50,6 @@ class TestUtitilies(unittest.TestCase):
             TextType.TEXT,
         )
         new_nodes = split_nodes_link([node])
-        print(f"New nodes: {new_nodes}")
         self.assertListEqual(
 
             [
@@ -49,7 +69,6 @@ class TestUtitilies(unittest.TestCase):
             TextType.TEXT,
         )
         new_nodes = split_nodes_link([node])
-        print(f"New nodes: {new_nodes}")
         self.assertListEqual(
 
             [

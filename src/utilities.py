@@ -3,6 +3,17 @@ from leafnode import LeafNode
 import re
 
 
+def markdown_to_blocks(markdown: str) -> list[str]:
+    blocks = markdown.split("\n\n")
+    result = []
+    for block in blocks:
+        if block == "":
+            continue
+        result.append(block.strip())
+
+    return result
+
+
 def text_to_textnode(text: str) -> list[TextNode]:
     text_node = TextNode(text, TextType.TEXT)
     result = split_nodes_delimiter([text_node], "**", TextType.BOLD)
