@@ -1,5 +1,4 @@
-from htmlnode import HTMLNode
-
+from pagio.nodes.htmlnode import HTMLNode
 
 class LeafNode(HTMLNode):
     def __init__(

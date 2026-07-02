@@ -1,5 +1,5 @@
 import unittest
-from leafnode import LeafNode
+from pagio.nodes.leafnode import LeafNode
 
 
 class TestLeafNode(unittest.TestCase):

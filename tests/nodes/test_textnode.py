@@ -1,6 +1,7 @@
 import unittest
-from textnode import TextNode, TextType
-from utilities import text_node_to_html_node
+from pagio.nodes.textnode import TextNode
+from pagio.enums.texttype import TextType
+from pagio.services.texts import text_node_to_html_node
 
 
 class TestTextNode(unittest.TestCase):

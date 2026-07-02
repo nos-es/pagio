@@ -1,6 +1,6 @@
 import unittest
-from leafnode import LeafNode
-from parentnode import ParentNode
+from pagio.nodes.leafnode import LeafNode
+from pagio.nodes.parentnode import ParentNode
 
 
 class TestParentNode(unittest.TestCase):
