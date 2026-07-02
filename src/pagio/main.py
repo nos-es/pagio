@@ -1,10 +1,17 @@
-# from textnode import TextNode, TextType
-from pagio.nodes.leafnode import LeafNode
-
+from pagio.services.markdowns import markdown_to_html_node
 
 def main() -> None:
-    test_leafnode = LeafNode("p", "test")
-    print(test_leafnode.tag)
+    md = """
+This is **bolded** paragraph
+text in a p
+tag here
+
+This is another paragraph with _italic_ text and `code` here
+
+"""
+
+    node = markdown_to_html_node(md)
+    html = node.to_html()
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
+import re
 from pagio.nodes.textnode import TextNode
 from pagio.enums.texttype import TextType
-from pagio.services.markdowns import extract_markdown_images, extract_markdown_links
 
 
 def has_closing_delimiter(text: str, delimiter: str) -> bool:
@@ -12,6 +12,16 @@ def has_closing_delimiter(text: str, delimiter: str) -> bool:
             delimiter_count += 1
 
     return delimiter_count % 2 == 0
+
+
+def extract_markdown_images(text: str) -> list[tuple(str, str)]:
+    images = re.findall(r"!\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
+    return images
+
+
+def extract_markdown_links(text: str) -> list[tuple(str, str)]:
+    links = re.findall(r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
+    return links
 
 
 def split_nodes_delimiter(old_nodes: list[TextNode], delimiter: str, text_type: TextType) -> list[TextNode]:
