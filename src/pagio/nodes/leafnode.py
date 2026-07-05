@@ -1,9 +1,10 @@
 from pagio.nodes.htmlnode import HTMLNode
 
+
 class LeafNode(HTMLNode):
     def __init__(
             self,
-            tag: str,
+            tag: str | None,
             value: str,
             props: dict[str, str] | None = None):
 
@@ -17,12 +18,10 @@ class LeafNode(HTMLNode):
         if self.tag is None:
             return self.value
 
-        props_html = super().props_to_html()
-
-        html = f"<{self.tag}{props_html}>{self.value}</{self.tag}>"
+        html = f"<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>"
 
         return html
 
     def __repr__(self):
         return f"LeafNode (tag: {self.tag} | value: {
-              self.value} | props: {self.props})"
+            self.value} | props: {self.props})"
