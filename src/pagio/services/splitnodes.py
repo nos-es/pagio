@@ -3,7 +3,7 @@ from pagio.nodes.textnode import TextNode
 from pagio.enums.texttype import TextType
 
 
-def has_closing_delimiter(splitted: list[str]) -> bool:
+def closing_delimiter_missing(splitted: list[str]) -> bool:
 
     return len(splitted) % 2 == 0
 
@@ -28,7 +28,7 @@ def split_nodes_delimiter(old_nodes: list[TextNode], delimiter: str, text_type: 
 
         splitted = node.text.split(delimiter)
 
-        if not has_closing_delimiter(splitted):
+        if closing_delimiter_missing(splitted):
             raise Exception(
                 "Provided delimiter has no closing delimiter in markdown.")
 
