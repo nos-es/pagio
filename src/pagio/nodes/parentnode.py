@@ -8,11 +8,11 @@ class ParentNode(HTMLNode):
             children: list[HTMLNode],
             props: dict[str, str] | None = None):
 
-        super().__init__(tag=tag, children=children, props=props)
+        super().__init__(tag, None, children, props)
 
     def to_html(self) -> str:
 
-        if self.tag is None or self.tag == "":
+        if self.tag is None:
             raise ValueError("Tag has no value")
 
         if self.children is None:

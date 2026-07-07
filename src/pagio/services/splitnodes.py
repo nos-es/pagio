@@ -26,6 +26,7 @@ def split_nodes_delimiter(old_nodes: list[TextNode], delimiter: str, text_type: 
             result_nodes.append(node)
             continue
 
+        split_nodes = []
         splitted = node.text.split(delimiter)
 
         if closing_delimiter_missing(splitted):
@@ -36,9 +37,10 @@ def split_nodes_delimiter(old_nodes: list[TextNode], delimiter: str, text_type: 
             if splitted[i] == "":
                 continue
             if i % 2 == 0:
-                result_nodes.append(TextNode(splitted[i], TextType.TEXT))
+                split_nodes.append(TextNode(splitted[i], TextType.TEXT))
             else:
-                result_nodes.append(TextNode(splitted[i], text_type))
+                split_nodes.append(TextNode(splitted[i], text_type))
+        result_nodes.extend(split_nodes)
 
     return result_nodes
 

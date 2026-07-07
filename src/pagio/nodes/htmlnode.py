@@ -10,8 +10,8 @@ class HTMLNode:
             props: dict[str, str] | None = None):
 
         self.tag = tag
-        self.value = value if value is not None else ""
-        self.children = children if children is not None else []
+        self.value = value
+        self.children = children
         self.props = props
 
     def to_html(self):
@@ -19,7 +19,7 @@ class HTMLNode:
 
     def props_to_html(self) -> str:
 
-        if self.props is None or self.props == {}:
+        if self.props is None:
             return ""
 
         props_str = ""
@@ -30,4 +30,4 @@ class HTMLNode:
 
     def __repr__(self):
         return f"HTMLNode (tag: {self.tag} | value: {self.value} | children: {
-              self.children} | props: {self.props})"
+            self.children} | props: {self.props})"

@@ -1,8 +1,11 @@
 from pagio.services.copystatics import copy_source_to_destination
+from pagio.services.generatepages import generate_page
 
 
 def main() -> None:
     copy_source_to_destination("./static/", "./public/")
+    generate_page("./content/index.md", "./template.html",
+                  "./public/index.html")
 
     pass
 

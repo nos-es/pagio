@@ -8,7 +8,7 @@ class LeafNode(HTMLNode):
             value: str,
             props: dict[str, str] | None = None):
 
-        super().__init__(tag=tag, value=value, props=props)
+        super().__init__(tag, value, None, props)
 
     def to_html(self) -> str:
 
