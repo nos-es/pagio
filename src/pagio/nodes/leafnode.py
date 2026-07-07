@@ -12,7 +12,7 @@ class LeafNode(HTMLNode):
 
     def to_html(self) -> str:
 
-        if self.value is None or self.value == "":
+        if self.value is None:
             raise ValueError("No existing value")
 
         if self.tag is None:
