@@ -49,3 +49,20 @@ def generate_page(from_path, template_path, dest_path) -> None:
 
     with open(dest_path, "w") as html_file:
         html_file.write(html_page)
+
+
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path) -> None:
+
+    for name in os.listdir(dir_path_content):
+        source_item = os.path.join(dir_path_content, name)
+        target_item = os.path.join(dest_dir_path, name)
+
+        print(f"Copying: {source_item} -> {target_item}")
+
+        if os.path.isfile(source_item):
+            target_item = target_item.replace(".md", ".html")
+            generate_page(source_item, template_path, target_item)
+        elif os.path.isdir(source_item):
+            generate_pages_recursive(source_item, template_path, target_item)
+        else:
+            print(f"Skipping unsupported file type: {source_item}")
