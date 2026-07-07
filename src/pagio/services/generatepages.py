@@ -1,3 +1,4 @@
+import os
 from pagio.services.markdowns import markdown_to_html_node
 
 
@@ -41,6 +42,10 @@ def generate_page(from_path, template_path, dest_path) -> None:
     html_page = template.replace("{{ Title }}", title)
     html_page = html_page.replace("{{ Content }}", content)
 
+    dest_dir_path = os.path.dirname(dest_path)
+
+    if dest_dir_path != "":
+        os.makedirs(dest_dir_path, exist_ok=True)
+
     with open(dest_path, "w") as html_file:
         html_file.write(html_page)
-    print(content)
