@@ -70,5 +70,5 @@ This project is licensed under the MIT License.
 
 ## Project Origin
 
-This project was built as part of the [Build a Static Site Generator in Python](https://www.boot.dev/courses/build-static-site-generator-python) course on [Boot.dev](https://www.boot.dev/).
+This project was built as part of a course on [Boot.dev](https://www.boot.dev/).
 
