@@ -24,7 +24,7 @@ def extract_title(markdown: str) -> str:
     return title
 
 
-def generate_page(from_path, template_path, dest_path) -> None:
+def generate_page(from_path, template_path, dest_path, base_path) -> None:
     print(f"Generating page from {from_path} to {
           dest_path} using {template_path}")
 
@@ -41,6 +41,8 @@ def generate_page(from_path, template_path, dest_path) -> None:
 
     html_page = template.replace("{{ Title }}", title)
     html_page = html_page.replace("{{ Content }}", content)
+    html_page = html_page.replace('href="/', f'href="{base_path}')
+    html_page = html_page.replace('src="/', f'src="{base_path}')
 
     dest_dir_path = os.path.dirname(dest_path)
 
@@ -51,7 +53,7 @@ def generate_page(from_path, template_path, dest_path) -> None:
         html_file.write(html_page)
 
 
-def generate_pages_recursive(dir_path_content, template_path, dest_dir_path) -> None:
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, base_path) -> None:
 
     for name in os.listdir(dir_path_content):
         source_item = os.path.join(dir_path_content, name)
@@ -61,8 +63,9 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path) -> 
 
         if os.path.isfile(source_item):
             target_item = target_item.replace(".md", ".html")
-            generate_page(source_item, template_path, target_item)
+            generate_page(source_item, template_path, target_item, base_path)
         elif os.path.isdir(source_item):
-            generate_pages_recursive(source_item, template_path, target_item)
+            generate_pages_recursive(
+                source_item, template_path, target_item, base_path)
         else:
             print(f"Skipping unsupported file type: {source_item}")
