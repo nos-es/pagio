@@ -45,17 +45,6 @@ An optional base path can be passed as the first argument. This is useful when t
 PYTHONPATH=src python3 -m pagio.main /pagio/
 ```
 
-## Project Structure
-
-```text
-content/        Markdown content
-static/         CSS, images, and other static files
-src/pagio/      Static site generator source code
-tests/          Unit tests
-template.html   HTML template used for generated pages
-docs/           Generated website
-```
-
 ## Tests
 
 Run the unit tests with:
